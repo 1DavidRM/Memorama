@@ -1,18 +1,12 @@
-#include "../include/Ventana.hpp"
+#include "Ventana.hpp"
 #include <iostream>
 #include <ctime>
-#include <vector>
 
-#include <cstdlib>
-
-using namespace std;
-using namespace sf;
 Ventana::Ventana() : window(sf::VideoMode(850, 750), "Memorama"), textures(6), fichas(3, std::vector<Ficha>(4)), descubiertas(0), cantDesbloqueada(0), esperando(false) {
     window.setFramerateLimit(60);
     if (!fondoTexture.loadFromFile("assets/Fondo.png"))
         std::cout << "Error al cargar textura de fondo" << std::endl;
     fondo.setTexture(fondoTexture);
-    vector<Texture> textures(6);
     for (int i = 1; i <= 6; i++) {
         sf::Texture tex;
         if (!tex.loadFromFile("assets/" + std::to_string(i) + ".png"))
