@@ -1,0 +1,100 @@
+@startuml
+
+class Juego {
+    -tablero: Tablero
+    -jugadores: List<Jugador>
+    -turnoActual: int
+    +iniciar()
+    +jugarTurno()
+    +verificarFin()
+}
+
+class Tablero {
+    -cartas: List<Carta>
+    +voltearCarta(pos: int): Carta
+    +todasEmparejadas(): boolean
+}
+
+class Carta {
+    -id: int
+    -valor: String
+    -emparejada: boolean
+    +voltear()
+    +esIgual(c: Carta): boolean
+}
+
+class Jugador {
+    -nombre: String
+    -puntos: int
+    +agregarPunto()
+}
+
+class Ventana {
+    -window: sf::RenderWindow
+    -fondoTexture: sf::Texture
+    -fondo: sf::Sprite
+    -textures: vector<sf::Texture>
+    -fichas: vector<vector<Ficha>>
+    -puntaje: Puntaje
+    -tiempo: Tiempo
+    -descubiertas: int
+    -cantDesbloqueada: int
+    -iAnt: int
+    -jAnt: int
+    -esperaClock: sf::Clock
+    -esperando: bool
+    -interfaz: Interfaz
+    +ejecutar()
+}
+
+class Ficha {
+    -texture: sf::Texture
+    -textureBlock: sf::Texture
+    -sprite: sf::Sprite
+    -descubierta: bool
+    -tipo: int
+    +asignarTextura(tex: sf::Texture)
+    +bloquearSprite()
+    +desbloquearSprite()
+    +consultarTipo(): int
+    +consultarEstado(): bool
+    +descubrir()
+    +contiene(x: int, y: int): bool
+}
+
+class Puntaje {
+    -puntos: int
+    +cambiar(mod: int)
+    +consultar(): int
+}
+
+class Tiempo {
+    -clock: sf::Clock
+    +reiniciar()
+    +restante(): int
+}
+
+class Interfaz {
+    -puntos: int
+    -descubiertas: int
+    -tiempoRestante: int
+    -font: sf::Font
+    -puntosText: sf::Text
+    -descubiertasText: sf::Text
+    -tiempoText: sf::Text
+    -resultadoText: sf::Text
+    +setPuntos(p: int)
+    +setDescubiertas(d: int)
+    +setTiempo(t: int)
+    +setResultado(msg: string, color: sf::Color)
+}
+
+Juego *-- Tablero 
+Juego o-- "2..*" Jugador 
+Tablero *-- "12..*" Carta 
+Ventana *-- Puntaje : composición
+Ventana *-- Tiempo : composición
+Ventana *-- Interfaz : composición
+Ventana *-- "12" Ficha : composición
+
+@enduml
